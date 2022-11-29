@@ -8,7 +8,7 @@
 	  <EnablePackageValidation>True</EnablePackageValidation>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <Authors>GoeaLabs</Authors>
-	  <Description>A rich API SDRNG for .NET, based on RFC8439 ChaCha.</Description>
+	  <Description>A rich API (S)ecure (D)eterministic (R)andom (N)umber (G)enerator for .NET, based on RFC8439 ChaCha.</Description>
 	  <Copyright>Copyright 2022, GoeaLabs</Copyright>
 	  <PackageProjectUrl>https://github.com/goealabs/dotnet-bedrock</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/goealabs/dotnet-bedrock</RepositoryUrl>
