@@ -1,18 +1,17 @@
 ﻿using GoeaLabs.Bedrock.Extensions;
 
-using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace GoeaLabs.Chaos
 {
     /// <summary>
-    /// <see cref="IChaCha"/> driver implementation.
+    /// <see cref="IChaos"/> implementation.
     /// </summary>
     public sealed class Chaos : IChaos
     {
 
-        #region IReggae properties
+        #region IChaos properties
 
         /// <inheritdoc/>
         public uint[] Kernel { get; private set; }
@@ -256,7 +255,7 @@ namespace GoeaLabs.Chaos
 
         #endregion
 
-        #region IReggae methods
+        #region IChaos methods
 
         /// <inheritdoc/>
         public IChaos GoTo(ulong? pebble, ulong? stream)
