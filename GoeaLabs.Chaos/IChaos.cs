@@ -6,7 +6,8 @@ using System.Numerics;
 namespace GoeaLabs.Chaos
 {
     /// <summary>
-    /// <see cref="IChaCha"/> driver.
+    /// A cryptographically secure deterministic random number generator based on
+    /// <see href="https://www.rfc-editor.org/rfc/rfc8439.html">RFC8439 ChaCha</see>.
     /// </summary>
     public interface IChaos
     {
@@ -18,43 +19,81 @@ namespace GoeaLabs.Chaos
             Span<uint> locale = new uint[IChaCha.LL];
 
             pebble.Split(out uint high, out uint low);
+            
             locale[0] = high;
             locale[1] = low;
 
             stream.Split(out high, out low);
+            
             locale[2] = high;
             locale[3] = low;
 
             IChaCha.OuterBlock(output, kernel, locale, rounds);
         }
 
+        /// <summary>
+        /// Minimum possible value for an 128 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt128Min = 0;
 
+        /// <summary>
+        /// Maximum possible value for an 128 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt128Max = BigInteger.Pow(2, 128) - 1;
 
+        /// <summary>
+        /// Minimum possible value for an 128 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int128Min = -BigInteger.Pow(2, 127);
 
+        /// <summary>
+        /// Maximum possible value for an 128 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int128Max = BigInteger.Pow(2, 127) - 1;
 
+        /// <summary>
+        /// Minimum possible value for an 256 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt256Min = 0;
 
+        /// <summary>
+        /// Maximum possible value for an 256 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt256Max = BigInteger.Pow(2, 256) - 1;
 
+        /// <summary>
+        /// Minimum possible value for an 256 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int256Min = -BigInteger.Pow(2, 255);
 
+        /// <summary>
+        /// Maximum possible value for an 256 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int256Max = BigInteger.Pow(2, 255) - 1;
 
+        /// <summary>
+        /// Minimum possible value for an 512 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt512Min = 0;
 
+        /// <summary>
+        /// Maximum possible value for an 512 bit unsigned <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger UInt512Max = BigInteger.Pow(2, 512) - 1;
 
+        /// <summary>
+        /// Minimum possible value for an 512 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int512Min = -BigInteger.Pow(2, 511);
 
+        /// <summary>
+        /// Maximum possible value for an 512 bit signed <see cref="BigInteger"/>.
+        /// </summary>
         static readonly BigInteger Int512Max = BigInteger.Pow(2, 511) - 1;
 
 
         /// <summary>
-        /// Driver's seed.
+        /// Engine seed.
         /// </summary>
         uint[] Kernel { get; }
 
@@ -64,7 +103,7 @@ namespace GoeaLabs.Chaos
         byte Rounds { get; }
 
         /// <summary>
-        /// How many times the driver rekeyed.
+        /// Engine re-key(s) count.
         /// </summary>
         ulong Cycles { get; }
 
