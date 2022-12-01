@@ -38,7 +38,7 @@ namespace GoeaLabs.Chaos.Tests
             Span<uint> okay = new(p);
             Span<uint> test = stackalloc uint[IChaCha.SL];
 
-            IChaos.OuterBlock(test, cKey, t[0], t[1]);
+            Chaos.OuterBlock(test, cKey, t[0], t[1]);
 
             Assert.IsTrue(test.SequenceEqual(okay));
         }
@@ -54,29 +54,29 @@ namespace GoeaLabs.Chaos.Tests
         }
 
         [TestMethod]
-        public void The_engine_rekeys_on_pebble_and_stream_exhaustion()
+        public void Engine_rekeys_on_pebble_and_stream_exhaustion()
         {
-            var driver = new Chaos();
-            var kernel = driver.Kernel;
+            var engine = new Chaos();
+            var kernel = engine.Kernel;
 
-            driver.GoTo(ulong.MaxValue, ulong.MaxValue);
-            _ = driver.NextUInt8();
+            engine.GoTo(ulong.MaxValue, ulong.MaxValue);
+            _ = engine.NextUInt8();
 
-            Assert.IsFalse(kernel == driver.Kernel);
+            Assert.IsFalse(kernel == engine.Kernel);
         }
 
         [TestMethod]
         [DataRow(0UL)]
         [DataRow(100UL)]
         [DataRow(1000UL)]
-        public void The_engine_advances_the_stream_on_pebble_exhaustion(ulong stream)
+        public void Engine_advances_the_stream_on_pebble_exhaustion(ulong stream)
         {
-            var driver = new Chaos();
+            var engine = new Chaos();
 
-            driver.GoTo(ulong.MaxValue, stream);
-            _ = driver.NextUInt8();
+            engine.GoTo(ulong.MaxValue, stream);
+            _ = engine.NextUInt8();
 
-            Assert.IsTrue(driver.Stream == ++stream);
+            Assert.IsTrue(engine.Stream == ++stream);
         }
 
         [TestMethod]
@@ -393,13 +393,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt8_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             sbyte number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt8();
+                number = engine.NextInt8();
 
-            Assert.IsTrue(number == driver.LoadInt8(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt8(pebble, stream));
         }
 
         [TestMethod]
@@ -411,13 +411,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt8_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             byte number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt8();
+                number = engine.NextUInt8();
 
-            Assert.IsTrue(number == driver.LoadUInt8(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt8(pebble, stream));
         }
 
         [TestMethod]
@@ -429,13 +429,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt16_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             int number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt16();
+                number = engine.NextInt16();
 
-            Assert.IsTrue(number == driver.LoadInt16(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt16(pebble, stream));
         }
 
         [TestMethod]
@@ -447,13 +447,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt16_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             ushort number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt16();
+                number = engine.NextUInt16();
 
-            Assert.IsTrue(number == driver.LoadUInt16(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt16(pebble, stream));
         }
 
         [TestMethod]
@@ -465,13 +465,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt32_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             int number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt32();
+                number = engine.NextInt32();
 
-            Assert.IsTrue(number == driver.LoadInt32(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt32(pebble, stream));
         }
 
         [TestMethod]
@@ -483,13 +483,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt32_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             uint number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt32();
+                number = engine.NextUInt32();
 
-            Assert.IsTrue(number == driver.LoadUInt32(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt32(pebble, stream));
         }
 
         [TestMethod]
@@ -501,13 +501,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt64_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             long number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt64();
+                number = engine.NextInt64();
 
-            Assert.IsTrue(number == driver.LoadInt64(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt64(pebble, stream));
         }
 
         [TestMethod]
@@ -519,13 +519,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt64_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             ulong number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt64();
+                number = engine.NextUInt64();
 
-            Assert.IsTrue(number == driver.LoadUInt64(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt64(pebble, stream));
         }
 
         [TestMethod]
@@ -537,13 +537,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt128_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt128(IChaos.Int128Min, IChaos.Int128Max);
+                number = engine.NextInt128(IChaos.Int128Min, IChaos.Int128Max);
 
-            Assert.IsTrue(number == driver.LoadInt128(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt128(pebble, stream));
         }
 
         [TestMethod]
@@ -555,13 +555,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt128_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt128(IChaos.UInt128Min, IChaos.UInt128Max);
+                number = engine.NextUInt128(IChaos.UInt128Min, IChaos.UInt128Max);
 
-            Assert.IsTrue(number == driver.LoadUInt128(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt128(pebble, stream));
         }
 
         [TestMethod]
@@ -573,13 +573,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt256_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt256(IChaos.Int256Min, IChaos.Int256Max);
+                number = engine.NextInt256(IChaos.Int256Min, IChaos.Int256Max);
 
-            Assert.IsTrue(number == driver.LoadInt256(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt256(pebble, stream));
         }
 
         [TestMethod]
@@ -591,13 +591,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt256_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt256(IChaos.UInt256Min, IChaos.UInt256Max);
+                number = engine.NextUInt256(IChaos.UInt256Min, IChaos.UInt256Max);
 
-            Assert.IsTrue(number == driver.LoadUInt256(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt256(pebble, stream));
         }
 
         [TestMethod]
@@ -609,13 +609,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadInt512_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextInt512(IChaos.Int512Min, IChaos.Int512Max);
+                number = engine.NextInt512(IChaos.Int512Min, IChaos.Int512Max);
 
-            Assert.IsTrue(number == driver.LoadInt512(pebble, stream));
+            Assert.IsTrue(number == engine.LoadInt512(pebble, stream));
         }
 
         [TestMethod]
@@ -627,13 +627,13 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(ushort.MaxValue, uint.MaxValue)]
         public void LoadUInt512_correctly_recovers_the_requested_value(ulong pebble, ulong stream)
         {
-            var driver = new Chaos().GoTo(null, stream);
+            var engine = new Chaos().GoTo(null, stream);
 
             BigInteger number = default;
             for (ulong i = 0; i <= pebble; i++)
-                number = driver.NextUInt512(IChaos.UInt512Min, IChaos.UInt512Max);
+                number = engine.NextUInt512(IChaos.UInt512Min, IChaos.UInt512Max);
 
-            Assert.IsTrue(number == driver.LoadUInt512(pebble, stream));
+            Assert.IsTrue(number == engine.LoadUInt512(pebble, stream));
         }
 
 

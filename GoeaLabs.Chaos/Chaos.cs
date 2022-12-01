@@ -253,6 +253,26 @@ namespace GoeaLabs.Chaos
         internal static BigInteger Normalize(BigInteger srcN, BigInteger minN, BigInteger maxN, BigInteger minR, BigInteger maxR)
             => minR + (srcN - minN) * (maxR - minR) / (maxN - minN);
 
+        /// <summary>
+        /// Not meant to be used directly.
+        /// </summary>
+        internal static void OuterBlock(Span<uint> output, ReadOnlySpan<uint> kernel, ulong pebble, ulong stream, byte rounds = IChaCha.DR)
+        {
+            Span<uint> locale = new uint[IChaCha.LL];
+
+            pebble.Split(out uint high, out uint low);
+
+            locale[0] = high;
+            locale[1] = low;
+
+            stream.Split(out high, out low);
+
+            locale[2] = high;
+            locale[3] = low;
+
+            IChaCha.OuterBlock(output, kernel, locale, rounds);
+        }
+
         #endregion
 
         #region IChaos methods
@@ -272,7 +292,7 @@ namespace GoeaLabs.Chaos
             var pebble = Pebble.GetValueOrDefault();
             var stream = Stream.GetValueOrDefault();
 
-            IChaos.OuterBlock(output, Kernel, pebble, stream, Rounds);
+            OuterBlock(output, Kernel, pebble, stream, Rounds);
         }
 
         /// <inheritdoc/>
@@ -692,7 +712,8 @@ namespace GoeaLabs.Chaos
         public uint LoadUInt32(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
 
             return state[0];
         }
@@ -705,7 +726,8 @@ namespace GoeaLabs.Chaos
         public ulong LoadUInt64(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
 
             return state[0].Join(state[1]);
         }
@@ -718,7 +740,8 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadUInt128(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
+
             Span<uint> slice = state[0..(IChaCha.SL / 4)];
 
             return new BigInteger(MemoryMarshal.AsBytes(slice), true);
@@ -728,7 +751,8 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadInt128(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
+
             Span<uint> slice = state[0..(IChaCha.SL / 4)];
 
             return new BigInteger(MemoryMarshal.AsBytes(slice), false);
@@ -738,7 +762,8 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadUInt256(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
+
             Span<uint> slice = state[0..(IChaCha.SL / 2)];
 
             return new BigInteger(MemoryMarshal.AsBytes(slice), true);
@@ -748,7 +773,8 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadInt256(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
+
             Span<uint> slice = state[0..(IChaCha.SL / 2)];
 
             return new BigInteger(MemoryMarshal.AsBytes(slice), false);
@@ -758,7 +784,7 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadUInt512(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
 
             return new BigInteger(MemoryMarshal.AsBytes(state), true);
         }
@@ -767,7 +793,7 @@ namespace GoeaLabs.Chaos
         public BigInteger LoadInt512(ulong pebble, ulong stream)
         {
             Span<uint> state = stackalloc uint[IChaCha.SL];
-            IChaos.OuterBlock(state, Kernel, pebble, stream, Rounds);
+            OuterBlock(state, Kernel, pebble, stream, Rounds);
 
             return new BigInteger(MemoryMarshal.AsBytes(state), false);
         }
