@@ -275,10 +275,15 @@ namespace GoeaLabs.Chaos
 
         #endregion
 
-        #region IChaos methods
+        #region Internal instance methods
 
-        /// <inheritdoc/>
-        public IChaos GoTo(ulong? pebble, ulong? stream)
+        /// <summary>
+        /// Positions the driver at requested coordinates.
+        /// </summary>
+        /// <remarks>Internal use only.</remarks>
+        /// <param name="pebble">Pebble index.</param>
+        /// <param name="stream">Stream index.</param>
+        internal Chaos GoTo(ulong? pebble, ulong? stream)
         {
             Pebble = pebble;
             Stream = stream;
@@ -286,14 +291,22 @@ namespace GoeaLabs.Chaos
             return this;
         }
 
-        /// <inheritdoc/>
-        public void Stay(Span<uint> output)
+        /// <summary>
+        /// Computes the block at current coordinates without advancing them.
+        /// </summary>
+        /// <remarks>Internal use only.</remarks>
+        /// <param name="output">Buffer to write the block to.</param>
+        internal void ReDo(Span<uint> output)
         {
             var pebble = Pebble.GetValueOrDefault();
             var stream = Stream.GetValueOrDefault();
 
             OuterBlock(output, Kernel, pebble, stream, Rounds);
         }
+
+        #endregion
+
+        #region IChaos methods
 
         /// <inheritdoc/>
         public void FillUInt8(Span<byte> output, byte minVal = byte.MinValue, byte maxVal = byte.MaxValue)
@@ -402,7 +415,7 @@ namespace GoeaLabs.Chaos
                 throw new ArgumentException($"Must be minimum {IChaCha.SL}", nameof(output));
 
             GoUp();
-            Stay(output);
+            ReDo(output);
         }
 
         /// <inheritdoc/>

@@ -97,19 +97,6 @@ namespace GoeaLabs.Chaos
         /// </summary>
         ulong? Stream { get; }
 
-        /// <summary>
-        /// Positions the driver at requested coordinates.
-        /// </summary>
-        /// <param name="pebble">Pebble index.</param>
-        /// <param name="stream">Stream index.</param>
-        IChaos GoTo(ulong? pebble, ulong? stream);
-
-        /// <summary>
-        /// Computes the block at current coordinates without advancing them.
-        /// </summary>
-        /// <param name="output">Buffer to write the block to.</param>
-        void Stay(Span<uint> output);
-
 
         /// <summary>
         /// Fills a buffer with random <see cref="byte"/>(s) in the given range.
