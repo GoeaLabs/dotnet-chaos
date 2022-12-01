@@ -1,4 +1,6 @@
-﻿namespace GoeaLabs.Chaos.Tests
+﻿using System.Data;
+
+namespace GoeaLabs.Chaos.Tests
 {
     [TestClass]
     public class ChaChaTests
@@ -61,6 +63,23 @@
             IChaCha.OuterBlock(test, cKey, cLoc);
 
             Assert.IsTrue(test.SequenceEqual(okay));
+        }
+
+        [TestMethod]
+        [DataRow((byte)0)]
+        [DataRow((byte)1)]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EnsureRounds_throws_on_invalid_rounds(byte rounds)
+        {
+            IChaCha.EnsureRounds(rounds);
+        }
+
+        [TestMethod]
+        [DataRow((byte)2)]
+        [DataRow((byte)4)]
+        public void EnsureRounds_does_not_throw_on_valid_rounds(byte rounds)
+        {
+            IChaCha.EnsureRounds(rounds);
         }
     }
 }

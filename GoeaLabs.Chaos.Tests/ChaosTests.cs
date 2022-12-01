@@ -44,16 +44,17 @@ namespace GoeaLabs.Chaos.Tests
         }
 
         [TestMethod]
-        [DataRow(3)]
-        [DataRow(33)]
+        [DataRow((byte)0)]
+        [DataRow((byte)3)]
+        [DataRow((byte)33)]
         [ExpectedException(typeof(ArgumentException))]
-        public void Driver_throws_ArgumentException_if_rounds_not_multiple_of_2(byte rounds)
+        public void Constructor_throws_ArgumentException_if_rounds_not_multiple_of_2(byte rounds)
         {
             _ = new Chaos(new uint[IChaCha.SL], rounds);
         }
 
         [TestMethod]
-        public void Driver_rekeys_on_pebble_and_stream_exhaustion()
+        public void The_engine_rekeys_on_pebble_and_stream_exhaustion()
         {
             var driver = new Chaos();
             var kernel = driver.Kernel;
@@ -68,7 +69,7 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(0UL)]
         [DataRow(100UL)]
         [DataRow(1000UL)]
-        public void Driver_advances_the_stream_on_pebble_exhaustion(ulong stream)
+        public void The_engine_advances_the_stream_on_pebble_exhaustion(ulong stream)
         {
             var driver = new Chaos();
 
