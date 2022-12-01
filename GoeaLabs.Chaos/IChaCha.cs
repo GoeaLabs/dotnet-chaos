@@ -48,14 +48,15 @@ namespace GoeaLabs.Chaos
         const uint F4 = 0x6b206574;
 
         /// <summary>
-        /// Throws if <paramref name="r"/> is not multiple of 2.
+        /// Throws if <paramref name="rounds"/> is not greater than 0 and 
+        /// multiple of 2.
         /// </summary>
-        /// <param name="r">The number of rounds to check.</param>
+        /// <param name="rounds">The number of rounds to check.</param>
         /// <exception cref="ArgumentException"></exception>
-        static void EnsureRounds(byte r)
+        static void EnsureRounds(byte rounds)
         {
-            if (r % 2 > 0)
-                throw new ArgumentException($"Must be multiple of 2.", nameof(r));
+            if (rounds == 0 || rounds % 2 > 0)
+                throw new ArgumentException($"Must be greater than 0 and multiple of 2.", nameof(rounds));
         }
 
         /// <summary>
