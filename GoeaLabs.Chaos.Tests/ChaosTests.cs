@@ -56,10 +56,9 @@ namespace GoeaLabs.Chaos.Tests
         [TestMethod]
         public void Engine_rekeys_on_pebble_and_stream_exhaustion()
         {
-            var engine = new Chaos();
+            var engine = new Chaos().GoTo(ulong.MaxValue, ulong.MaxValue);
             var kernel = engine.Kernel;
 
-            engine.GoTo(ulong.MaxValue, ulong.MaxValue);
             _ = engine.NextUInt8();
 
             Assert.IsFalse(kernel == engine.Kernel);
@@ -71,9 +70,8 @@ namespace GoeaLabs.Chaos.Tests
         [DataRow(1000UL)]
         public void Engine_advances_the_stream_on_pebble_exhaustion(ulong stream)
         {
-            var engine = new Chaos();
+            var engine = new Chaos().GoTo(ulong.MaxValue, stream);
 
-            engine.GoTo(ulong.MaxValue, stream);
             _ = engine.NextUInt8();
 
             Assert.IsTrue(engine.Stream == ++stream);
