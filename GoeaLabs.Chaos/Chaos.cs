@@ -254,8 +254,14 @@ namespace GoeaLabs.Chaos
             => minR + (srcN - minN) * (maxR - minR) / (maxN - minN);
 
         /// <summary>
-        /// Not meant to be used directly.
+        /// 
+        /// 
         /// </summary>
+        /// <param name="output"></param>
+        /// <param name="kernel"></param>
+        /// <param name="pebble"></param>
+        /// <param name="stream"></param>
+        /// <param name="rounds"></param>
         internal static void OuterBlock(Span<uint> output, ReadOnlySpan<uint> kernel, ulong pebble, ulong stream, byte rounds = IChaCha.DR)
         {
             Span<uint> locale = new uint[IChaCha.LL];
@@ -283,6 +289,7 @@ namespace GoeaLabs.Chaos
         /// <remarks>Internal use only.</remarks>
         /// <param name="pebble">Pebble index.</param>
         /// <param name="stream">Stream index.</param>
+        /// <returns>This instance of <see cref="Chaos"/>.</returns>
         internal Chaos GoTo(ulong? pebble, ulong? stream)
         {
             Pebble = pebble;
