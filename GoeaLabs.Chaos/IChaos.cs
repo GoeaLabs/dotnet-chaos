@@ -12,26 +12,6 @@ namespace GoeaLabs.Chaos
     public interface IChaos
     {
         /// <summary>
-        /// Not meant to be used directly.
-        /// </summary>
-        internal static void OuterBlock(Span<uint> output, ReadOnlySpan<uint> kernel, ulong pebble, ulong stream, byte rounds = IChaCha.DR)
-        {
-            Span<uint> locale = new uint[IChaCha.LL];
-
-            pebble.Split(out uint high, out uint low);
-            
-            locale[0] = high;
-            locale[1] = low;
-
-            stream.Split(out high, out low);
-            
-            locale[2] = high;
-            locale[3] = low;
-
-            IChaCha.OuterBlock(output, kernel, locale, rounds);
-        }
-
-        /// <summary>
         /// Minimum possible value for an 128 bit unsigned <see cref="BigInteger"/>.
         /// </summary>
         static readonly BigInteger UInt128Min = 0;
@@ -115,7 +95,7 @@ namespace GoeaLabs.Chaos
         /// <summary>
         /// Current stream index.
         /// </summary>
-        public ulong? Stream { get; }
+        ulong? Stream { get; }
 
         /// <summary>
         /// Positions the driver at requested coordinates.

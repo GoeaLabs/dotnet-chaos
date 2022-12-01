@@ -134,38 +134,5 @@ namespace GoeaLabs.Chaos
             for (int i = 0; i < output.Length; i++)
                 output[i] = primary[i] + mutated[i];
         }
-
-        //static Span<uint> OuterBlock(ReadOnlySpan<uint> key, ReadOnlySpan<uint> locale, byte rounds = DR)
-        //{
-        //    EnsureRounds(rounds);
-
-        //    var blockSize = 4 + key.Length + locale.Length;
-
-        //    Span<uint> primary = stackalloc uint[blockSize];
-
-        //    primary[0] = F1;
-        //    primary[1] = F2;
-        //    primary[2] = F3;
-        //    primary[3] = F4;
-
-        //    Span<uint> keyPart = primary.Slice(4, key.Length);
-        //    Span<uint> locPart = primary.Slice(key.Length + 4, locale.Length);
-
-        //    key.CopyTo(keyPart);
-        //    locale.CopyTo(locPart);
-
-        //    Span<uint> mutated = stackalloc uint[blockSize];
-        //    primary.CopyTo(mutated);
-
-        //    for (int i = 0; i < rounds / 2; i++)
-        //        InnerBlock(mutated);
-
-        //    Span<uint> output = new uint[blockSize];
-
-        //    for (int i = 0; i < output.Length; i++)
-        //        output[i] = primary[i] + mutated[i];
-
-        //    return output;
-        //}
     }
 }

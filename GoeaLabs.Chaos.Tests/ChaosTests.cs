@@ -38,7 +38,7 @@ namespace GoeaLabs.Chaos.Tests
             Span<uint> okay = new(p);
             Span<uint> test = stackalloc uint[IChaCha.SL];
 
-            IChaos.OuterBlock(test, cKey, t[0], t[1]);
+            Chaos.OuterBlock(test, cKey, t[0], t[1]);
 
             Assert.IsTrue(test.SequenceEqual(okay));
         }
